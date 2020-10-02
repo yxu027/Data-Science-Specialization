@@ -7,11 +7,11 @@ setwd("X:/Chrome Download/rprog_data_ProgAssignment3-data")
 #2. Finding the best hospital in a state
 best <- function(state, outcome) {
     data <- read.csv("outcome-of-care-measures.csv", colClasses = "character")
-    if (!(state %in% data[,7])) {
-        print("invalid state")
+    if (!state %in% data[,7]) {
+        stop("invalid state")
     } 
-    else if (!(outcome %in% c("heart attack", "heart failure", "pneumonia"))){
-        print("invalid outcome")
+    else if (!outcome %in% c("heart attack", "heart failure", "pneumonia")){
+        stop("invalid outcome")
     } 
     else {
         col <- c("heart attack" = 11, "heart failure" = 17, "pneumonia" = 23)
@@ -28,12 +28,12 @@ rankhospital <- function(state, outcome, num = "best") {
     ## Read outcome data
     data <- read.csv("outcome-of-care-measures.csv", colClasses = "character")
     ## Check that state and outcome are valid
-    if (!(state %in% data[,7])) {
-        print("invalid state")
-    } 
-    else if (!(outcome %in% c("heart attack", "heart failure", "pneumonia"))){
-        print("invalid outcome")
-    } 
+    if (!state %in% data[,7]) {
+        stop("invalid state")
+    }
+    else if (!outcome %in% c("heart attack", "heart failure", "pneumonia")) {
+      stop("invalid outcome")
+    }
     else {
         col <- c("heart attack" = 11, "heart failure" = 17, "pneumonia" = 23)
         data[, col[outcome]] <- as.numeric(data[, col[outcome]])
@@ -55,5 +55,15 @@ rankhospital <- function(state, outcome, num = "best") {
             naremove[as.numeric(num) ,2]
         }
     }
+}
+
+
+#4. Ranking hospitals in all states
+rankall <- function(outcome, num = "best") {
+  ## Read outcome data
+  ## Check that state and outcome are valid
+  ## For each state, find the hospital of the given rank
+  ## Return a data frame with the hospital names and the
+  ## (abbreviated) state name
 }
 
