@@ -53,12 +53,12 @@ features <- read.table("X:/Chrome Download/UCI HAR Dataset/features.txt", header
 names(all_data) <- c("activity", "subject", features$V2)
 
 
-### 2 Extracts only the measurements on the mean and standard deviation for each measurement.
+## 2 Extracts only the measurements on the mean and standard deviation for each measurement.
 
 mean_std<- all_data %>%
   select(activity, subject, contains("mean"), contains("std"))
 
-### 3 Uses descriptive activity names to name the activities in the data set
+## 3 Uses descriptive activity names to name the activities in the data set
 #### Inport lable information from activity_labels file, then change all acticity in dataframe base on its value.
 
 activity_labels <- read.table("X:/Chrome Download/UCI HAR Dataset/activity_labels.txt", header = FALSE)
@@ -66,7 +66,7 @@ activity_labels <- as.character(activity_labels[,2])
 mean_std$activity <- activity_labels[mean_std$activity]
 
 
-### 4 Appropriately labels the data set with descriptive variable names.
+## 4 Appropriately labels the data set with descriptive variable names.
 #### Names with abbrevation changed to descriptive name. 
 
 descriptive_name <- names(mean_std)
@@ -77,7 +77,7 @@ descriptive_name <- gsub("^t", "Time", descriptive_name)
 descriptive_name <- gsub("^f", "Frequency", descriptive_name)    
 names(mean_std) <- descriptive_name
 
-### 5 From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.
+## 5 From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.
 
 tidy_data <- mean_std %>%
   group_by(activity, subject) %>%
