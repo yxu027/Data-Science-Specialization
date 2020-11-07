@@ -21,10 +21,10 @@
 ##1. Merges the training and the test sets to create one data set. 
 #### Data was download and unzip in local directory then read into R.
 
-#### Load package fot this analysis
+#### 1.1 Load package fot this analysis
 library(tidyverse)
 
-#### Read train file and merge all colume into one dataframe.
+#### 1.2 Read train file and merge all colume into one dataframe.
 file_X_train <- "X:/Chrome Download/UCI HAR Dataset/train/X_train.txt"
 file_y_train <- "X:/Chrome Download/UCI HAR Dataset/train/y_train.txt"
 file_subject_train <- "X:/Chrome Download/UCI HAR Dataset/train/subject_train.txt"
@@ -34,7 +34,7 @@ subject_train <- read.table(file_subject_train, header = FALSE)
 
 train <- cbind(y_train, subject_train, x_train)
 
-#### Read test file and merge all colume into one dataframe.
+#### 1.3 Read test file and merge all colume into one dataframe.
 file_X_test <- "X:/Chrome Download/UCI HAR Dataset/test/X_test.txt"
 file_y_test <- "X:/Chrome Download/UCI HAR Dataset/test/y_test.txt"
 file_subject_test <- "X:/Chrome Download/UCI HAR Dataset/test/subject_test.txt"
@@ -44,11 +44,11 @@ subject_test <- read.table(file_subject_test, header = FALSE)
 
 test <- cbind(y_test, subject_test, x_test)
 
-#### Merge train and test dateframe into one dataframe
+#### 1.4 Merge train and test dateframe into one dataframe
 all_data <- rbind(train, test)
 
 
-#### Read variable name from features file and name all variables.
+#### 1.5 Read variable name from features file and name all variables.
 features <- read.table("X:/Chrome Download/UCI HAR Dataset/features.txt", header = FALSE)
 names(all_data) <- c("activity", "subject", features$V2)
 
