@@ -85,3 +85,5 @@ tidy_data <- mean_std %>%
   
 ## 6 Write tidy_data to file
 #### Please upload the tidy data set created in step 5 of the instructions. Please upload your data set as a txt file created with write.table() using row.name=FALSE (do not cut and paste a dataset directly into the text box, as this may cause errors saving your submission).
+
+write.table(tidy_data, "./tidy_data.txt", row.name = FALSE)
