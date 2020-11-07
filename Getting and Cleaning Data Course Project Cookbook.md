@@ -18,7 +18,7 @@
 #### 4. Appropriately labels the data set with descriptive variable names.
 #### 5.From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.
 
-##1. Merges the training and the test sets to create one data set. 
+## 1. Merges the training and the test sets to create one data set. 
 #### Data was download and unzip in local directory then read into R.
 
 #### 1.1 Load package fot this analysis
@@ -77,7 +77,7 @@ descriptive_name <- gsub("^t", "Time", descriptive_name)
 descriptive_name <- gsub("^f", "Frequency", descriptive_name)    
 names(mean_std) <- descriptive_name
 
-###5 From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.
+### 5 From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.
 
 tidy_data <- mean_std %>%
   group_by(activity, subject) %>%
