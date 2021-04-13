@@ -15,7 +15,7 @@ str(data)
 ```
 
 ##1.Calculate the total number of steps taken per day
-```{r}
+```{r steps_per_day}
 library(tidyverse)
 steps_per_day <- data %>%
   group_by(date) %>%
@@ -27,7 +27,7 @@ median_steps_per_day <- median(steps_per_day$total.per.day, na.rm = TRUE)
 mean steps per day is `r mean_steps_per_day`, median steps per day is `r median_steps_per_day`.
 
 ##2.What is the average daily activity pattern?
-```{r}
+```{r steps_per_interval}
 steps_per_interval <- data %>%
   group_by(interval) %>%
   summarise(steps.per.interval = mean(steps, na.rm = TRUE))
@@ -65,7 +65,7 @@ data_full <- rbind(data_ok, data_missing_filled)
 
 ####3.4 Make a histogram of the total number of steps taken each day and Calculate and report the mean and median total number of steps taken per day. Do these values differ from the estimates from the first part of the assignment? What is the impact of imputing missing data on the estimates of the total daily number of steps?
 
-```{r}
+```{r steps_per_day_new_hist}
 steps_per_day_new <- data_full %>%
   group_by(date) %>%
   summarise(total.per.day = sum(steps))
@@ -76,7 +76,7 @@ median_steps_per_day_new <- median(steps_per_day_new$total.per.day, na.rm = TRUE
 mean steps per day is `r mean_steps_per_day_new`, median steps per day is `r median_steps_per_day_new`.
 
 ##4 Are there differences in activity patterns between weekdays and weekends?
-```{r}
+```{r steps_per_day_new}
 data_full$day <- weekdays(as.Date(data_full$date))
 data_full$weekday <- "weekday"
 data_full$weekday[data_full$day == "Sunday" | data_full$day == "Saturday"] <- "weekend"
