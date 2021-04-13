@@ -1,6 +1,7 @@
 ---
 title: "Course5 reproducible research"
 output: html_document
+keep_md: true
 ---
 
 ```{r setup, include=FALSE}
@@ -87,4 +88,9 @@ steps_per_interval_new <- data_full %>%
 ggplot(steps_per_interval_new, aes(x=interval, y=total.per.interval, group=weekday, color=weekday)) +
   geom_line()+
   geom_point()
+```
+
+####knit2html
+```{r }
+knit2html()
 ```
