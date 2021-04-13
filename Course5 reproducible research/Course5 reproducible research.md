@@ -1,0 +1,90 @@
+---
+  title: "Course5 reproducible research"
+output: html_document
+---
+  
+  ```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+##0. Load data
+```{r load data}
+setwd("X:/Git/Data-Science-Specialization/Course5 reproducible research")
+data <- read.csv("activity.csv")
+str(data)
+```
+
+##1.Calculate the total number of steps taken per day
+```{r}
+library(tidyverse)
+steps_per_day <- data %>%
+  group_by(date) %>%
+  summarise(total.per.day = sum(steps))
+hist(steps_per_day$total.per.day, main = "Total steps by day", xlab = "day")
+mean_steps_per_day <- mean(steps_per_day$total.per.day, na.rm = TRUE)
+median_steps_per_day <- median(steps_per_day$total.per.day, na.rm = TRUE)
+```
+mean steps per day is `r mean_steps_per_day`, median steps per day is `r median_steps_per_day`.
+
+##2.What is the average daily activity pattern?
+```{r}
+steps_per_interval <- data %>%
+  group_by(interval) %>%
+  summarise(steps.per.interval = mean(steps, na.rm = TRUE))
+plot(steps_per_interval,type = "l", xlab = "5min interval", 
+     ylab = "Average steps", main = "Average steps 5min interval")
+max_steps_interval <- steps_per_interval$interval[which.max(steps_per_interval$steps.per.interval)]
+```
+At `r max_steps_interval` of all 5-minute interval contains the maximum number of steps.
+
+##3.Imputing missing values
+####3.1 Calculate and report the total number of missing values in the dataset (i.e. the total number of rows with NAs)
+```{r}
+#missing_value <- colSums(is.na(data))
+missing_value <- sum(is.na(data))
+```
+There are  `r missing_value` missing values in the dataset. 
+
+####3.2 Devise a strategy for filling in all of the missing values in the dataset. The strategy does not need to be sophisticated. For example, you could use the mean/median for that day, or the mean for that 5-minute interval, etc.
+Solution: use the mean for that 5-minute interval.
+```{r}
+#subset rows of data with missing value
+data_missing <- data[rowSums(is.na(data)) > 0, ] %>%
+  select(date, interval)
+#use the mean for that 5-minute interval.
+data_missing_filled <- merge(data_missing, steps_per_interval, by = "interval") %>%
+  rename(steps = steps.per.interval)
+```
+
+
+####3.3Create a new dataset that is equal to the original dataset but with the missing data filled in.
+```{r}
+data_ok <- data[rowSums(is.na(data)) == 0, ]
+data_full <- rbind(data_ok, data_missing_filled)
+```
+
+####3.4 Make a histogram of the total number of steps taken each day and Calculate and report the mean and median total number of steps taken per day. Do these values differ from the estimates from the first part of the assignment? What is the impact of imputing missing data on the estimates of the total daily number of steps?
+
+```{r}
+steps_per_day_new <- data_full %>%
+  group_by(date) %>%
+  summarise(total.per.day = sum(steps))
+hist(steps_per_day_new$total.per.day, main = "New total steps by day", xlab = "day")
+mean_steps_per_day_new <- mean(steps_per_day_new$total.per.day, na.rm = TRUE)
+median_steps_per_day_new <- median(steps_per_day_new$total.per.day, na.rm = TRUE)
+```
+mean steps per day is `r mean_steps_per_day_new`, median steps per day is `r median_steps_per_day_new`.
+
+##4 Are there differences in activity patterns between weekdays and weekends?
+```{r}
+data_full$day <- weekdays(as.Date(data_full$date))
+data_full$weekday <- "weekday"
+data_full$weekday[data_full$day == "Sunday" | data_full$day == "Saturday"] <- "weekend"
+steps_per_interval_new <- data_full %>%
+  group_by(weekday, interval) %>%
+  summarise(total.per.interval = mean(steps))
+
+ggplot(steps_per_interval_new, aes(x=interval, y=total.per.interval, group=weekday, color=weekday)) +
+  geom_line()+
+  geom_point()
+```
