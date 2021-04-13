@@ -77,8 +77,6 @@ plot6 <- NEI %>%
 plot6$city[plot6$fips == "24510"] <- "Baltimore"
 plot6$city[plot6$fips == "06037"] <- "Los Angeles"
 
-plot6
-
 png("plot6.png",width=5,height=5,units="in",res=150)
 ggplot(plot6, aes(x=factor(year), y=Emissions.sum, color=city, group=city)) +
   geom_line(aes(group=fips)) +
