@@ -39,7 +39,7 @@ head(SCC)
 coal_SCC <- SCC %>%
   select(1,4) %>%
   filter(., grepl("Coal", EI.Sector))
-  
+
 plot4 <- merge(NEI, coal_SCC, by= "SCC") %>%
   group_by(year) %>%
   summarise(Emissions.sum = sum(Emissions))
